@@ -1,0 +1,18 @@
+ti-proxy:
+    image: jwilder/nginx-proxy
+    hostname: ti-proxy
+    ports:
+        - "80:80"
+    volumes:
+        - /var/run/docker.sock:/tmp/docker.sock:ro
+
+ti-web:
+    image: nginx
+    hostname: ti-web
+    environment:
+        - VIRTUAL_HOST=theint.net,theint.co,theinterstitial.net
+    ports:
+        - "8080:80"
+    volumes:
+        - /root/ti/html:/var/www/theint.net
+        - ./ti-nginx.conf:/etc/nginx/conf.d/default.conf:ro
